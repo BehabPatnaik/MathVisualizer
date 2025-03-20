@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Professional Math Function Visualizer</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/9.4.4/math.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1><i class="fas fa-function"></i> Math Function Visualizer</h1>
+            <p class="subtitle">Interactive mathematical function visualization tool</p>
+        </header>
+
+        <div class="main-content">
+            <div class="sidebar">
+                <div class="input-section">
+                    <div class="functions-list" id="functionsList">
+                        <div class="function-input-group" data-function-id="1">
+                            <div class="function-header">
+                                <h3>Function 1</h3>
+                                <button class="remove-function" title="Remove function">
+                                    <i class="fas fa-times"></i>
+                                </button>
+                            </div>
+                            <div class="function-input">
+                                <label for="function-1">f₁(x) = </label>
+                                <input type="text" id="function-1" class="function-input-field" value="x^2" 
+                                    placeholder="Enter function (e.g., x^2, sin(x), 2*x+1)">
+                                <div class="function-color">
+                                    <input type="color" id="color-1" value="#3498db">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <button id="addFunction" class="secondary-button">
+                        <i class="fas fa-plus"></i> Add Function
+                    </button>
+
+                    <div class="function-help">
+                        <button class="help-button" id="showHelp">
+                            <i class="fas fa-question-circle"></i> Help
+                        </button>
+                        <div class="help-content" id="helpContent">
+                            <h3>Available Functions</h3>
+                            <ul>
+                                <li>Basic: +, -, *, /, ^</li>
+                                <li>Trig: sin(x), cos(x), tan(x)</li>
+                                <li>Log: log(x), log2(x), log10(x)</li>
+                                <li>Exp: exp(x), 2^x</li>
+                                <li>Other: sqrt(x), abs(x)</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="parameters">
+                        <div class="parameter-group">
+                            <h3>X-Axis Range</h3>
+                            <div class="parameter">
+                                <label for="xMin">Min:</label>
+                                <input type="number" id="xMin" value="-10" step="0.1">
+                            </div>
+                            <div class="parameter">
+                                <label for="xMax">Max:</label>
+                                <input type="number" id="xMax" value="10" step="0.1">
+                            </div>
+                        </div>
+                        <div class="parameter-group">
+                            <h3>Y-Axis Range</h3>
+                            <div class="parameter">
+                                <label for="yMin">Min:</label>
+                                <input type="number" id="yMin" value="-10" step="0.1">
+                            </div>
+                            <div class="parameter">
+                                <label for="yMax">Max:</label>
+                                <input type="number" id="yMax" value="10" step="0.1">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="graph-settings">
+                        <h3>Graph Settings</h3>
+                        <div class="setting">
+                            <label for="gridLines">Grid Lines:</label>
+                            <input type="checkbox" id="gridLines" checked>
+                        </div>
+                        <div class="setting">
+                            <label for="axisLines">Axis Lines:</label>
+                            <input type="checkbox" id="axisLines" checked>
+                        </div>
+                        <div class="setting">
+                            <label for="smoothLine">Smooth Line:</label>
+                            <input type="checkbox" id="smoothLine" checked>
+                        </div>
+                    </div>
+
+                    <div class="preset-functions">
+                        <h3>Preset Functions</h3>
+                        <div class="function-categories">
+                            <div class="function-category">
+                                <h4>Basic Functions</h4>
+                                <div class="preset-buttons">
+                                    <button class="preset-btn" data-function="x">f(x) = x</button>
+                                    <button class="preset-btn" data-function="x^2">x²</button>
+                                    <button class="preset-btn" data-function="x^3">x³</button>
+                                    <button class="preset-btn" data-function="x^4">x⁴</button>
+                                    <button class="preset-btn" data-function="1/x">1/x</button>
+                                    <button class="preset-btn" data-function="sqrt(x)">√x</button>
+                                </div>
+                            </div>
+
+                            <div class="function-category">
+                                <h4>Trigonometric</h4>
+                                <div class="preset-buttons">
+                                    <button class="preset-btn" data-function="sin(x)">sin(x)</button>
+                                    <button class="preset-btn" data-function="cos(x)">cos(x)</button>
+                                    <button class="preset-btn" data-function="tan(x)">tan(x)</button>
+                                    <button class="preset-btn" data-function="2 * sin(x)">2sin(x)</button>
+                                    <button class="preset-btn" data-function="sin(2 * x)">sin(2x)</button>
+                                    <button class="preset-btn" data-function="sin(x) * cos(x)">sin(x)cos(x)</button>
+                                </div>
+                            </div>
+
+                            <div class="function-category">
+                                <h4>Exponential & Logarithmic</h4>
+                                <div class="preset-buttons">
+                                    <button class="preset-btn" data-function="exp(x)">eˣ</button>
+                                    <button class="preset-btn" data-function="2^x">2ˣ</button>
+                                    <button class="preset-btn" data-function="log(x)">ln(x)</button>
+                                    <button class="preset-btn" data-function="log2(x)">log₂(x)</button>
+                                    <button class="preset-btn" data-function="log10(x)">log₁₀(x)</button>
+                                    <button class="preset-btn" data-function="exp(-x^2)">e^(-x²)</button>
+                                </div>
+                            </div>
+
+                            <div class="function-category">
+                                <h4>Combined Functions</h4>
+                                <div class="preset-buttons">
+                                    <button class="preset-btn" data-function="x^2 * sin(x)">x²sin(x)</button>
+                                    <button class="preset-btn" data-function="exp(x) * sin(x)">eˣsin(x)</button>
+                                    <button class="preset-btn" data-function="sin(x^2)">sin(x²)</button>
+                                    <button class="preset-btn" data-function="sqrt(abs(x))">√|x|</button>
+                                    <button class="preset-btn" data-function="sin(x)/x">sin(x)/x</button>
+                                    <button class="preset-btn" data-function="cos(x^2)">cos(x²)</button>
+                                </div>
+                            </div>
+
+                            <div class="function-category">
+                                <h4>Special Functions</h4>
+                                <div class="preset-buttons">
+                                    <button class="preset-btn" data-function="abs(x)">|x|</button>
+                                    <button class="preset-btn" data-function="floor(x)">⌊x⌋</button>
+                                    <button class="preset-btn" data-function="ceil(x)">⌈x⌉</button>
+                                    <button class="preset-btn" data-function="sin(1/x)">sin(1/x)</button>
+                                    <button class="preset-btn" data-function="x * sin(1/x)">xsin(1/x)</button>
+                                    <button class="preset-btn" data-function="exp(-x) * sin(2*pi*x)">e⁻ˣsin(2πx)</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button id="plotButton" class="primary-button">
+                        <i class="fas fa-chart-line"></i> Plot Function
+                    </button>
+                </div>
+            </div>
+
+            <div class="graph-section">
+                <div class="graph-container">
+                    <canvas id="functionGraph"></canvas>
+                </div>
+                <div class="graph-info">
+                    <div id="coordinates">Coordinates: (0, 0)</div>
+                    <div id="function-info">Function: f(x) = x²</div>
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            <p>Created with <i class="fas fa-heart"></i> for mathematical exploration</p>
+            <p>© 2024 Math Function Visualizer</p>
+        </footer>
+    </div>
+
+    <div id="error-message" class="error-message"></div>
+    <script src="script.js"></script>
+</body>
+</html> 
